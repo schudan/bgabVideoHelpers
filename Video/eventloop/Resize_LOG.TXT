@@ -1,0 +1,7 @@
+RESIZE STARTED
+	Resizing Z:\php\Livetext\pics.pptx
+	InitSizes
+	InitResizeParms
+	Launch dialog
+	User canceled dialog; quitting
+
