@@ -1,0 +1,99 @@
+#!/bin/sh
+
+#beep -f 1400 -l 250
+
+# Directory where file is located
+DIR="/media/video/Video/sonntag/sonntag/"
+CONVDIR="/media/video/Video/sonntag/converted/"
+ARCHIV="/media/video/Video/sonntag/archiv/"
+FTPDIR="/public_html/videos"
+#  Filename of backup file to be transfered
+SOURCE="/media/video/Video/sonntag/Sonntag.mpg"
+FILE="sonntag.mp4"
+FILE2="sonntag.ogg"
+NOW=`date +%Y%m%d`
+BLOCKDIR=/media/video/Video/conversion/converted/block
+BLOCK= `block`
+
+DAYCHECK=$(date +"%Y%m%d")
+numdaycheck=`date -d $DAYCHECK +%u` 
+#echo $numdaycheck
+sum=$((7-$numdaycheck))
+Next_Sunday=`date -d "$DAYCHECK $sum days" +%Y%m%d`
+
+
+cd  /media/video/Video/sonntag/sonntag/
+find -name "* *" -type f | rename 's/ /_/g';
+
+B=$(basename "$1");
+
+DATER=`date +%Y%m%d_%H%M%S`;
+DATER=`date +%Y%m%d_%H%M%S`;
+SETS=1150k_1280x720;
+#SETS=h264_1150k_720x576;
+OUTPUT=${B%.*}_${SETS}_${DATER};
+
+OUTPUTDIR=/media/video/Video/conversion/converted/;
+OUTPUT2="date +%Y%m%d_%H%M%S_block";
+BLOCKDIR=/media/video/Video/conversion/converted/block;
+BLOCK= "block";
+
+#----- Empty converted subdirectory
+		rm /media/video/Video/sonntag/converted/*.*
+
+#----- Convert to mp3
+
+		ffmpeg -i $1 -y -b:a 128000 -f mp3 -async 25 /media/video/Video/sonntag/converted/$NOW.mp3 1>/media/video/Video/conversion/converted/block.txt 2>&1;
+		normalize-audio /media/video/Video/sonntag/converted/$Next_Sunday.mp3
+		cp "/media/video/Video/sonntag/converted/$NOW.mp3" "/media/video/Video/sonntag/converted/sonntag.mp3"
+
+
+s#----- Resize from 1920x1080 to 720x404
+
+#ffmpeg -i $1 -y -c:a copy -vcodec libx264 -s 720x404 -b 950k -r 30 $OUTPUTDIR$OUTPUT.mp4  1>/media/raid/video/conversion/converted/block.txt 2>&1
+ffmpeg -i $1 -y -s 720x404 -c:a copy -c:v libx264 -s 720x404 -preset fast -crf 28 $OUTPUTDIR$OUTPUT.mp4  1>/media/raid/video/conversion/converted/block.txt 2>&1
+
+
+#----- Remux video
+ffmpeg -i $OUTPUTDIR$OUTPUT.mp4 -y  -i /media/video/Video/sonntag/converted/sonntag.mp3 -c:v copy -map 0:v:0 -map 1:a:0 /media/video/Video/sonntag/converted/qt2.mp4 1>/media/video/Video/conversion/converted/block.txt;
+qt-faststart /media/video/Video/sonntag/converted/qt2.mp4 /media/video/Video/sonntag/converted/sonntag.mp4
+
+#----- Rename files
+
+		mv $1 /media/video/Video/sonntag/processed/;
+
+#		mv "/media/video/Video/sonntag/sonntag/sonntag.mpg" "/media/video/Video/sonntag/processed/sonntag.mpg";
+
+#----- Rename files
+
+		cd $DIR;
+		mv "/media/video/Video/sonntag/converted/sonntag2.mp3" "/media/video/Video/sonntag/converted/$NOW.mp3"
+#		mv "/media/video/Video/sonntag/converted/sonntag.mp3" "/media/video/Video/sonntag/converted/NOW.mp3"
+		mv "/media/video/Video/sonntag/converted/qt_delay.mp4" "/media/video/Video/sonntag/converted/sonntag.mp4";
+
+#----- Move files to archive
+
+#		mv "/media/video/Video/sonntag/processed/sonntag.mpg" "/media/video/Video/sonntag/archiv/video/sonntag.mpg"
+#		mv "sonntag.mp3" "/media/video/Video/sonntag/archiv/mp3/sonntag.mp3"
+
+
+
+		cp "/media/video/Video/sonntag/converted/$NOW.mp3" "$ARCHIV/mp3/$Next_Sunday.mp3"
+
+
+#call to secondary script 
+#		./media/raid/data/bash/FTPUpload.sh
+
+#----- Copy files to permanent archive
+#		cd $CONVDIR
+		cp "$NOW.mp3" "/media/video/Video/sonntag/archiv/mp3/$NOW.mp3"
+		cp "/media/video/Video/sonntag/processed/Sonntag.mp4" "/media/video/Video/sonntag/archiv/video/$Next_Sunday.mp4"
+#		cp "sonntag.mp4" "/media/video/Video/sonntag/archiv/video/$Next_SundayNext_Sunday.mp4"
+#		mv "sonntag.mpg" /media/video/Video/sonntag/processed/
+
+sh /media/raid/data/bash/FTPUpload.sh
+
+
+python /media/raid/data/bash/sonntagemail.py
+
+

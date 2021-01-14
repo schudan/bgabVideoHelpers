@@ -1,0 +1,14 @@
+#!/bin/sh
+
+beep -f 1400 -l 250
+
+cd /media/raid/documents/conversion
+
+lowriter --headless --convert-to pdf ./doc_to_pdf/*.doc -outdir ./converted
+
+mv ./doc_to_pdf/*.doc ./archive/doc
+
+
+beep -f 1000 -l 500
+
+# End of script

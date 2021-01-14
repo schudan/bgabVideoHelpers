@@ -1,0 +1,36 @@
+#!/bin/bash
+
+beep -f 1400 -l 250
+
+cd /media/raid/videos/conversion/to_h264_512x288_600k/;
+find -name "* *" -type f | rename 's/ /_/g';
+B=$(basename "$1");
+
+DATER=`date +%Y%m%d_%H%M%S`
+OUTPUT=`date +%Y%m%d_%H%M%S_h264_512x288_600k`
+SETS=h264_512x288_600k
+OUTPUT=${B%.*}_${SETS}_${DATER}
+OUTPUTDIR=/media/raid/videos/conversion/converted/
+OUTPUT2=`date +%Y%m%d_%H%M%S_block`
+BLOCKDIR=/media/raid5/video/conversion/converted/block
+BLOCK= `block`
+
+#ffmpeg -i $1 -y -c:a libvo_aacenc -b:a 128k -vcodec libx264 -s 480x272 -b:v 500k -r 25 $OUTPUTDIR$OUTPUT.mp4  1>/media/raid/videos/conversion/converted/block.txt 2>&1;
+ffmpeg -i $1 -y -acodec  libfdk_aac -ab 128k -ar 22050 -ac 2 -vcodec libx264 -s 512x288 -b:v 600k -r 25 $OUTPUTDIR$OUTPUT.mp4  1>/media/raid/videos/conversion/converted/block.txt 2>&1; # no audio conversion
+#ffmpeg -i $1 -y -acodec  libfdk_aac -ab 256k -ac 2 -vcodec libx264 -s 480x272 -b:v 500k -r 25 $OUTPUTDIR$OUTPUT.mp4  1>/media/raid/videos/conversion/converted/block.txt 2>&1;
+#ffmpeg -i $1 -y -acodec libfdk_aac -ab 256k -ac 2 -vcodec libx264 -s 480x272 -b:v 500k -r 25 $OUTPUTDIR$OUTPUT.mp4  1>/media/raid/videos/conversion/converted/block.txt 2>&1;
+
+#This line moves the moov atom to the beginning of the file for immediate streaming
+/usr/local/bin/qt-faststart $OUTPUTDIR$OUTPUT.mp4 $OUTPUTDIR${OUTPUT}_stream.mp4
+
+
+rm $OUTPUTDIR$OUTPUT.mp4
+
+mv $1 /media/raid/videos/conversion/processed/
+
+
+
+#beep -f 1000 -l 500
+sh /media/raid/data/bash/mario.sh
+
+#python /media/raid/data/bash/sonntagemail.py

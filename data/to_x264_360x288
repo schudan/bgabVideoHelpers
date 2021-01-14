@@ -1,0 +1,8 @@
+#!/bin/bash
+
+OUTPUT=`date +%Y%m%d_%H%M%S_x264_200k_360x288`
+OUTPUTDIR=/media/raid/videos/conversion/converted/
+
+ffmpeg -i $1 -y -acodec  libfdk_aac -ab 32k -ar 22050 -ac 1 -vcodec libx264 -s 360x288 -qscale 4 -b 200k -preset medium $OUTPUTDIR$OUTPUT.mp4
+
+mv $1 /media/raid/videos/conversion/processed/

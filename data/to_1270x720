@@ -1,0 +1,38 @@
+#!/bin/bash
+
+#beep -f 1400 -l 250
+
+cd /media/raid/video/conversion/to_1280x720/;
+find -name "* *" -type f | rename 's/ /_/g';
+
+B=$(basename "$1");
+
+DATER=`date +%Y%m%d_%H%M%S`
+DATER=`date +%Y%m%d_%H%M%S`
+SETS=1280x720
+#SETS=h264_1150k_720x576
+OUTPUT=${B%.*}_${SETS}_${DATER}
+
+OUTPUTDIR=/media/raid/video/conversion/converted/
+OUTPUT2=`date +%Y%m%d_%H%M%S_block`
+BLOCKDIR=/media/raid/video/conversion/converted/block
+BLOCK= `block`
+
+#1280x720
+ffmpeg -i $1 -y -acodec  libfaac -ab 256k -ac 2 -vcodec libx264 -s 1280x720 -b 950k -r 25 $OUTPUTDIR$OUTPUT.mp4  1>/media/raid/video/conversion/converted/block.txt 2>&1
+#720x576
+#ffmpeg -i $1 -y -acodec  libfaac -ab 128k -ac 2 -vcodec libx264 -s 720x576 -b 950k -r 25 $OUTPUTDIR$OUTPUT.mp4  1>/media/raid/video/conversion/converted/block.txt 2>&1
+
+#/usr/local/bin/qt-faststart $OUTPUTDIR$OUTPUT.mp4 $OUTPUTDIR${B%.*}_${OUTPUT}_stream.mp4
+
+#This line moves the moov atom to the beginning of the file for immediate streaming
+/usr/local/bin/qt-faststart $OUTPUTDIR$OUTPUT.mp4 $OUTPUTDIR${OUTPUT}_stream.mp4
+
+
+rm $OUTPUTDIR$OUTPUT.mp4
+
+mv $1 /media/raid/video/conversion/processed/
+
+
+#beep -f 1000 -l 500
+#sh /media/raid/data/bash/mario.sh

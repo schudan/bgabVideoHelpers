@@ -1,0 +1,14 @@
+#!/bin/bash
+
+beep -f 1400 -l 250
+
+OUTPUT=`date +%Y%m%d_%H%M%S`
+OUTPUTDIR=/media/raid/videos/conversion/converted/
+
+ffmpeg -i $1 -sameq $OUTPUTDIR$OUTPUT.mov
+
+#ffmpeg -i $1 -c:v libx264 -crf:v 22 -preset:v veryfast -ac 2 -c:a libfdk_aac -vbr 3 $OUTPUTDIR$OUTPUT.mov
+
+mv $1 /media/raid/videos/conversion/processed/
+
+beep -f 1000 -l 500

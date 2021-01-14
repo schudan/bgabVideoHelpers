@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#ffmpeg -i $1 -y -acodec  libfdk_aac -ab 32k -ar 22050 -ac 1 -vcodec libx264 -s 515x288 -qscale 4 -b 200k -vpre medium /media/raid5/video/conversion/converted/`date +%F--%k:%M:%S`.mp4
+
+DATER=`date +%Y%m%d_%H%M%S`
+OUTPUT=`date +%Y%m%d_%H%M%S_h264_512x288_200k`
+OUTPUTDIR=/media/raid5/video/conversion/converted
+OUTPUT2=`date +%Y%m%d_%H%M%S_block`
+BLOCKDIR=/media/raid5/video/conversion/converted/block
+BLOCK= `block`
+
+ffmpeg -i $1 -y -acodec  libfdk_aac -ab 32k -ar 22050 -ac 1 -vcodec libx264 -s 512x288 -qscale 4 -b 500k /media/raid5/video/conversion/converted/$OUTPUT.mp4
+#ffmpeg -i $1 -y -acodec  libfdk_aac -ab 32k -ar 22050 -ac 1 -vcodec libx264 -s 512x288 -qscale 4 -b 500k  $OUTPUTDIR$OUTPUT.mp4 1>/media/raid/videos/conversion/converted/block.txt 2>&1
+
+DATER=`date +%Y%m%d_%H%M%S`
+
+#This line moves the moov atom to the beginning of the file for immediate streaming
+qt-faststart /media/raid5/video/conversion/converted/$OUTPUT.mp4 /media/raid5/video/conversion/converted/rename_$DATER.mp4
+#qt-faststart $OUTPUTDIR$OUTPUT.mp4 $OUTPUTDIR${OUTPUT}_rename_stream.mp4
+
+mv $1 /media/raid5/video/conversion/processed/

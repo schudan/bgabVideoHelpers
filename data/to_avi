@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ffmpeg -i $1 -sameq /media/raid5/video/conversion/converted/`date +%F--%k:%M:%S`.avi
+mv $1 /media/raid5/video/conversion/processed/

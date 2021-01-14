@@ -1,0 +1,28 @@
+#!/bin/bash
+
+beep -f 1400 -l 250
+
+cd /media/raid/videos/conversion/bgabdvd_to_1280x720/;
+find -name "* *" -type f | rename 's/ /_/g';
+
+B=$(basename "$1");
+
+DATER=`date +%Y%m%d_%H%M%S`
+DATER=`date +%Y%m%d_%H%M%S`
+SETS=bgabdvd_to_1280x720
+#SETS=bgabdvd_to_1280x720
+OUTPUT=${B%.*}_${SETS}_${DATER}
+
+OUTPUTDIR=/media/raid/videos/conversion/converted/
+OUTPUT2=`date +%Y%m%d_%H%M%S_block`
+BLOCKDIR=/media/raid/videos/conversion/converted/block
+BLOCK= `block`
+
+#1280x720
+ffmpeg -i $1 -y -acodec  libfdk_aac -ab 256k -ar 22050 -ac 2 -vcodec libx264 -vf scale=1280x720, setdar=16:9 -qscale 4 -b:v 3400k -preset medium $OUTPUTDIR$OUTPUT.mp4  1>/media/raid/videos/conversion/converted/block.txt 2>&1 1>/media/raid/videos/conversion/converted/block.txt 2>&1;
+
+mv $1 /media/raid/videos/conversion/processed/
+
+
+#beep -f 1000 -l 500
+sh /media/raid/data/bash/mario.sh

@@ -1,0 +1,19 @@
+#!/bin/sh
+
+beep -f 1400 -l 250
+
+cd /media/raid/videos/conversion/to_ogg
+
+for i in $(ls *.*); 
+	do ffmpeg2theora $i -y 288 --videoquality 8; 
+done
+
+for i in $(ls *.ogv); 
+	do mv *.ogv /media/raid/videos/conversion/converted/`date +%F--%H:%M:%S`.ogg;	
+done
+
+for i in $(ls *.*); 
+	do mv $i /media/raid/videos/conversion/processed/;	
+done
+
+beep -f 1000 -l 500

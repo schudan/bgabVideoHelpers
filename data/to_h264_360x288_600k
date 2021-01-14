@@ -1,0 +1,21 @@
+#!/bin/bash
+
+beep -f 1400 -l 250
+
+#ffmpeg -i $1 -y -acodec  libfdk_aac -ab 96k -ac 2 -vcodec libx264 -s 360x288 -b 600k -preset medium /media/raid/videos/conversion/converted/`date +%F--%H:%M:%S`.mp4
+#ffmpeg -i $1 -y -vcodec libx264 -s 360x288 -b 600k -preset medium /media/raid/videos/conversion/converted/`date +%Y%m%d_%H%M%S_${1}`.mp4
+
+#set INPUT=%~f1
+OUTPUT=`date +%Y%m%d_%H%M%S`
+OUTPUTDIR=/media/raid/videos/conversion/converted/
+
+
+#ffmpeg -i $1 -y -vcodec libx264 -s 360x288 -b 600k -preset medium "/media/raid/videos/conversion/converted/%OUTPUT%"
+#ffmpeg -i $1 -y -vcodec libx264 -s 360x288 -b 600k -preset medium $OUTPUT$1.mp4
+ffmpeg -i $1 -vcodec libx264 -s 360x288 -b 600k -preset medium $OUTPUTDIR$OUTPUT.mp4
+
+/usr/local/bin/qt-faststart $OUTPUTDIR$OUTPUT.mp4 $OUTPUTDIR${OUTPUT}_stream.mp4
+
+beep -f 1000 -l 500
+
+mv $1 /media/raid/videos/conversion/processed/

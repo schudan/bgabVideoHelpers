@@ -1,0 +1,5 @@
+#!/bin/sh
+
+pacpl --eopts="--vbr-new -V 2" --to mp3 *m4a --delete;
+
+python create_audiobook.py;

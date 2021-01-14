@@ -1,0 +1,12 @@
+#!/bin/bash
+
+beep -f 1400 -l 250
+
+OUTPUT=`date +%Y%m%d_%H%M%S_mp4_300k_360x288`
+OUTPUTDIR=/media/raid/videos/conversion/converted/
+
+ffmpeg -i $1 -y -r 20 -ar 44100 -ab 196 -s 360x288 -b 300k $OUTPUTDIR$OUTPUT.mp4
+
+mv $1 /media/raid/videos/conversion/processed/
+
+beep -f 1000 -l 500

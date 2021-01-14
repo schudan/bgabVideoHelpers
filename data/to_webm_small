@@ -1,0 +1,5 @@
+#!/bin/bash
+
+ffmpeg -i $1 -b 110k /media/raid/videos/conversion/converted/`date +%F--%H:%M:%S`.webm
+
+mv $1 /media/raid/videos/conversion/processed/

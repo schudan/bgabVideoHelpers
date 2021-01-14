@@ -1,0 +1,15 @@
+#!/bin/bash
+beep -f 1400 -l 250
+
+
+OUTPUT=`date +%Y%m%d_%H%M%S_h264_quality`
+OUTPUTDIR=/media/raid/videos/conversion/converted/
+
+#ffmpeg -i $1 -y -acodec  libfdk_aac -ab 256k -ac 2 -vcodec libx264 -preset medium  $OUTPUTDIR$OUTPUT.mp4
+ffmpeg -i $1 -y -acodec  libfdk_aac -ab 256k -ac 2 -vcodec libx264 -preset:v veryfast  $OUTPUTDIR$OUTPUT.mp4
+
+#ffmpeg -i $1 -c:v libx264 -crf:v 22 -preset:v veryfast -ac 2 -c:a libfdk_aac -vbr 3 $OUTPUTDIR$OUTPUT.mp4
+
+mv $1 /media/raid/videos/conversion/processed/
+
+beep -f 500 -l 500

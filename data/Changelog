@@ -1,0 +1,47 @@
+------------------------------------------------------------------------
+r6 | krayon | 2012-08-31 17:20:45 +1000 (Fri, 31 Aug 2012) | 4 lines
+
+
+   * Doh... updated version number to v0.03 (forgot to last checkin).
+
+
+------------------------------------------------------------------------
+r5 | krayon | 2012-08-31 17:19:54 +1000 (Fri, 31 Aug 2012) | 6 lines
+
+
+   * Changed output filename to be based on video title.
+   * Fixed since vimeo changes circa 2012 ( at least that's when I
+     noticed it :P ).
+
+
+------------------------------------------------------------------------
+r4 | krayon | 2012-08-31 17:05:26 +1000 (Fri, 31 Aug 2012) | 6 lines
+
+
+   * Added debug output (via decho).
+   * Incremented version to v0.02.
+   * Added 'set -e' to make script more robust.
+
+
+------------------------------------------------------------------------
+r3 | krayon | 2012-08-31 17:02:14 +1000 (Fri, 31 Aug 2012) | 4 lines
+
+
+   * Added missing UA and QUALITY variables.
+
+
+------------------------------------------------------------------------
+r2 | krayon | 2012-08-31 17:01:00 +1000 (Fri, 31 Aug 2012) | 4 lines
+
+
+   * Initial import of version 0.01.
+
+
+------------------------------------------------------------------------
+r1 | krayon | 2012-08-31 16:22:04 +1000 (Fri, 31 Aug 2012) | 4 lines
+
+
+   * Initial import
+
+
+------------------------------------------------------------------------

@@ -1,0 +1,34 @@
+#!/bin/bash
+
+B=$(basename "$1");
+
+DIR="/media/raid/video/conversion/to_mp3"
+CONVDIR="/media/raid/video/sonntag/converted/"
+ARCHIV="/media/raid/video/sonntag/archiv/"
+FTPDIR="/public_html/videos"
+#  Filename of backup file to be transfered
+SOURCE="/media/raid/video/sonntag/Sonntag.mpg"
+NOW=`date +%Y%m%d`
+SETS=mp3_1128k
+#SETS=h264_1150k_720x576
+OUTPUT=${B%.*}_${SETS}_${DATER}
+
+OUTPUTDIR=/media/raid/video/conversion/converted/
+OUTPUT2=`date +%Y%m%d_%H%M%S_block`
+BLOCKDIR=/media/raid/video/conversion/converted/block
+BLOCK= `block`
+
+cd $CONVDIR
+
+find -name "* *" -type f | rename 's/ /_/g';
+
+
+#ffmpeg -i $1 -vn -ac 2 -ab 128000 -f mp3 $OUTPUTDIR$OUTPUT.mp3
+
+		/usr/local/bin/ffmpeg -i $1 -y -ac 2 -ab 64k -ar 24000 -f mp3 -async 25 /media/raid/video/sonntag/converted/$NOW.mp3 1>/media/raid/video/conversion/converted/block.txt 2>&1;
+		mp3gain -c -r /media/raid/video/sonntag/converted/$NOW.mp3;
+		cp "/media/raid/video/sonntag/converted/$NOW.mp3" "$ARCHIV/mp3/$NOW.mp3"
+
+mv $1 /media/raid/video/conversion/processed/
+
+sh /media/raid/data/bash/FTPMP3Upload.sh

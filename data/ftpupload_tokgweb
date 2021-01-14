@@ -1,0 +1,21 @@
+#!/bin/sh
+
+beep -f 1400 -l 250
+#sh /media/raid/data/bash/mario.sh
+
+
+
+# Transfer to server via ftp
+sh /media/raid/data/bash/ftpupload_tokgweb.sh
+
+		cd "/media/raid/videos/conversion/ftpupload_tokgweb"
+		mv * "/media/raid/videos/conversion/converted"
+
+
+sh /media/raid/data/bash/phaser.sh
+
+# End of script
+
+
+
+

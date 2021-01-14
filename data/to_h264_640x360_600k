@@ -1,0 +1,14 @@
+#!/bin/bash
+
+beep -f 1400 -l 250
+
+OUTPUT=`date +%Y%m%d_%H%M%S_h264_800k_640x360`
+OUTPUTDIR=/media/raid/videos/conversion/converted/
+
+ffmpeg -i $1 -y -acodec  libfdk_aac -ab 256k -ac 2 -vcodec libx264 -s 640x360 -b 800k -preset medium  $OUTPUTDIR$OUTPUT.mp4
+
+/usr/local/bin/qt-faststart $OUTPUTDIR$OUTPUT.mp4 $OUTPUTDIR${OUTPUT}_stream.mp4
+
+mv $1 /media/raid/videos/conversion/processed/
+
+beep -f 1000 -l 500
