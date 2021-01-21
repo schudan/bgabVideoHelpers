@@ -1,0 +1,9 @@
+#!/bin/sh
+
+for i in $(ls *.torrent); 
+	do mv *.ogv /media/raid5/video/conversion/converted/`date +%F--%H:%M:%S`.ogg;	
+done
+
+for i in $(ls *.*); 
+	do mv $i /media/raid5/video/conversion/processed/;	
+done

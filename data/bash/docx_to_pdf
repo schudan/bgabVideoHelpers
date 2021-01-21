@@ -1,0 +1,16 @@
+#!/bin/sh
+
+beep -f 1400 -l 250
+
+cd /media/raid/documents/conversion
+
+#libreoffice --headless -convert-to pdf ./docx_to_pdf/*.docx -outdir ./converted
+
+#unoconv
+
+lowriter --headless --convert-to pdf ./docx_to_pdf/*.docx -outdir ./converted
+
+mv ./docx_to_pdf/*.docx ./archive/doc
+
+beep -f 1000 -l 500
+

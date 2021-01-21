@@ -1,0 +1,37 @@
+#!/bin/sh
+
+beep -f 1400 -l 250
+
+# Clean upload Directory
+cd /media/raid/videos/conversion/from_dropbox_to_kgweb
+for i in *; do
+    mv * /media/raid/videos/conversion/kgweb_archive
+done
+#mv * /media/raid/videos/conversion/kgweb_archive
+
+
+# Relocate file from Dropbox Directory
+cd /home/keith/Dropbox/Transfer/to_kgweb
+for i in *.ext; do
+    mv * /media/raid/videos/conversion/to_kgweb
+done
+
+cd /media/raid/videos/conversion/to_kgweb
+# Rename to replace spaces with underline
+find -name "* *" -type f | rename 's/ /_/g'
+
+# Convert file
+sh /media/raid/data/bash/to_kgweb
+
+# Transfer to server via ftp
+sh /media/raid/data/bash/ftpupload_kgwebvideo.sh
+
+
+
+#sh /media/raid/data/bash/mario.sh
+
+# End of script
+
+
+
+

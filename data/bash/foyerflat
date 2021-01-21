@@ -1,0 +1,18 @@
+#!/bin/sh
+
+
+#----- Produce mp4 files
+
+/usr/local/bin/ffmpeg -i $1 -y -an -vcodec libx264 -s 1280x720 -qscale 4 -b:v 3000k -preset medium /media/raid/video/foyerflat.mp4 1>/media/raid/video/conversion/converted/block.txt 2>&1;
+
+
+#----- Rename files
+
+		mv $1 /media/raid/video/conversion/converted/processed/;
+		sudo chown keith:users /media/raid/video/foyerflat.mp4;
+		sudo chmod ugo+x /media/raid/video/foyerflat.mp4;
+
+
+
+
+

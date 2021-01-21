@@ -1,0 +1,10 @@
+#!/bin/bash
+
+beep -f 1400 -l 250
+
+cd /home/keith/Dropbox/media
+
+for i in $(ls *.torrent); 
+	do mv $i /media/raid/downloads/torrent/active/;	
+done
+

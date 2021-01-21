@@ -1,0 +1,45 @@
+#!/bin/bash
+
+#beep -f 1400 -l 250
+#----- Replace Filenames - no empty spaces
+
+cd /media/raid/video/conversion/resize_livetext;
+find -name "* *" -type f | rename 's/ /_/g';
+
+#----- VARIABLES
+# Directory where file is located
+ARCHIVE="/media/raid/video/conversion/archive"
+SOURCE="/media/raid/video/conversion/resize_livetext"
+RESIZED="/media/raid/video/conversion/resized"
+
+#beep -f 1400 -l 250
+
+
+#----- Resize Graphics
+cd /media/raid/video/conversion/resize_livetext
+
+	convert $1 -set filename:base %t \ '%f' -resize 1920x  $RESIZED/%[filename:base].png;
+
+#var=1
+#filelist=`ls | grep '.jpg'`
+#file_num=$(ls -1 --file-type | grep -v '/$' | wc -l)
+#for infile in $filelist; do 
+#	convert $infile -set filename:base %t \ '%f' -resize 1920x  $RESIZED/%[filename:base]_$var.png;
+	
+#	var=$((var+1))
+
+#done
+
+
+#----- Move to archive
+
+#cd $SOURCE
+
+#find . -name "*.jpg" | xargs -i mv '{}' $SOURCE/resized
+
+cd $ARCHIVE
+
+#sh /media/raid/data/bash/mario.sh
+
+#sh /media/raid/data/bash/watcherpy.sh
+

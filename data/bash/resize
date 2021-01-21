@@ -1,0 +1,39 @@
+#!/bin/bash
+
+beep -f 1400 -l 250
+
+#----- VARIABLES
+# Directory where file is located
+ARCHIVE="/media/raid5/video/resize_livetext"
+SOURCE="/media/raid5/video/resize"
+
+beep -f 1400 -l 250
+
+
+#----- Resize Graphics
+cd $SOURCE
+
+convert * -set filename:mysize  '%f' -resize 1920x $ARCHIVE/$(date "+%Y%m%d")_%[filename:mysize];
+
+#cd $SOURCE/resized
+
+#----- Move to archive
+
+#cd $SOURCE
+
+#find . -name "*.jpg" | xargs -i mv '{}' $SOURCE/resized
+
+cd $ARCHIVE
+
+mogrify -format png *.jpg
+
+find . -name "*.png" | xargs -i mv '{}' $ARCHIVE/png
+find . -name "*.jpg" | xargs -i mv '{}' $ARCHIVE/jpg
+
+cd $SOURCE
+find . -name "*.jpg" | xargs -i mv '{}' $SOURCE/resized
+
+#sh /media/raid/data/bash/mario.sh
+
+sh /media/raid/data/bash/watcherpy.sh
+

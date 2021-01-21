@@ -1,0 +1,17 @@
+
+#!/bin/sh
+....# get rid of the cursor so we dont see it when videos are running..
+setterm -cursor off
+# set here the path to the directory containing your videos
+VIDEOPATH="http://192.168.1.24/video/foyerflat.mp4";
+# you can normally leave this alone
+SERVICE="omxplayer";
+# now for our infinite loop!
+while true; do
+     if ps ax | grep -v grep | grep $SERVICE > /dev/null
+     then
+     sleep 1;
+     else
+       omxplayer $VIDEOPATH --loop --no-osd > /dev/null
+     fi
+done
